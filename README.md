@@ -8,13 +8,13 @@ TODO: _put a picture of a closet here_
 
 ## Contents
 
-* Installing a server in a closet
-* Picking an engine for containerized apps
-* Using a closet-native application proxy
-* Installing a closet container registry (CCR)
-* Launching cloud apps in a closet
-* Managing application stacks
-* Closet housekeeping
+* [Installing a server in a closet](#Installing-a-server-in-a-closet)
+* [Picking an engine for containerized apps](#Picking-an-engine-for-containerized-apps)
+* [Using a closet-native application proxy](#Using-a-closet-native-application-proxy)
+* [Installing a closet container registry (CCR)](#Installing-a-closet-container-registry-CCR)
+* [Launching cloud apps in a closet](#Launching-cloud-apps-in-a-closet)
+* [Managing application stacks](#Managing-application-stacks)
+* [Closet housekeeping](#Closet-housekeeping)
 
 ## Things not covered
 
@@ -23,6 +23,20 @@ TODO: _put a picture of a closet here_
 * What to do after an startup investment
 * Closet-to-cloud migrations (should be seamless)
 
-## Authors
+## Installing a server in a closet
+
+## Picking an engine for containerized apps
+
+## Using a closet-native application proxy
+
+## Installing a closet container registry (CCR)
+
+## Launching cloud apps in a closet
+
+## Managing application stacks
+
+## Closet housekeeping
+
+## Credits
 
 * Simonas Kareiva
