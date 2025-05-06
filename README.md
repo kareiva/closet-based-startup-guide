@@ -206,6 +206,11 @@ The classical way of running apps inside a container works just fine. Here's an 
              -l traefik.http.services.myapp.loadbalancer.server.port="9000" \
              registry.yourstartup.com/myapp:latest
 
+Nothing happens. Let's check the proxy logs:
+
+    $ podman logs traefik
+    2025-04-26T19:43:25Z ERR error="service \"myapp\" error: unable to find the IP address for the container \"/myapp\": the server is ignored" container=myapp-4fe88f4a4350cab8bd5a69b182696e75d760c18f4740873269293d5010c9be81 providerName=docker
+
 Oh shit we forgot to enable DNS on the default podman network! 
 
 ## Managing application stacks
