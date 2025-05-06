@@ -8,7 +8,7 @@ TODO: _put a picture of a closet here_
 
 ## Contents
 
-* Installing a server in a closet
+* [Installing a server in a closet](#Installing-a-server-in-a-closet)
 * Picking an engine for containerized apps
 * Using a closet-native application proxy
 * Installing a closet container registry (CCR)
@@ -22,6 +22,8 @@ TODO: _put a picture of a closet here_
 * Disaster recovery
 * What to do after an startup investment
 * Closet-to-cloud migrations (should be seamless)
+
+# Installing a server in a closet
 
 ## Authors
 
