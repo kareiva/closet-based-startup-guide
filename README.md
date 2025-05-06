@@ -43,7 +43,7 @@ nukes your closet with a intercontinental ballistic missile. With backups, you w
 ## Picking an engine for containerized apps
 
 Now we can probably run Docker on Linux, but Docker is already dead at the time of this writing. Also, Docker will happily 
-send you a thick bill once your annual revenue surpasses $10.000.000,00. This can happen anytime now, so let's go with a 
+send you a thick bill once your annual revenue surpasses $10,000,000.00. This can happen anytime now, so let's go with a 
 free alternative - Podman. Podman also has a lesser chance of exposing your pet server underwear in case your first
 startup hire makes a typo when launching a containerized app. No swarm, no kubernetes, no cloud, just a podman in a closet.
 
@@ -52,6 +52,8 @@ startup hire makes a typo when launching a containerized app. No swarm, no kuber
     sudo usermod -v 1000000-1065536 -w 1000000-1065536 apps
     sudo podman system migrate
     sudo bash -c "echo 'net.ipv4.ip_unprivileged_port_start=53' > /etc/sysctl.d/user_priv_ports.conf"
+    sudo firewall-cmd --add-port=8080/tcp --permanent # for dashboards and stuff
+    sudo firewall-cmd --reload
 
 Create a two-factor SSH authentication mechanism for the user 'apps':
 
@@ -62,6 +64,44 @@ You can follow the full guide [here](https://www.digitalocean.com/community/tuto
 Okay, just use [duo.com](https://duo.com).
 
 ## Using a closet-native application proxy
+
+Let's pick something that is both bullet-proof and hard to pronounce for the script kiddies. Traefik (which is both a cloud and
+closet-native proxy) will do just fine and it works nicely with Podman. Once your downtime will cost you around $10.000,00/minute,
+Traefik will be there to support you at a presumably lesser rate. As your unprivileged user:
+
+    systemctl --user enable podman.socket
+    touch ~/acme.json
+    chmod 0600 ~/acme.json
+    podman run -d \
+      --name=traefik \
+      --net podman \
+      --security-opt label=type:container_runtime_t \
+      -v /run/user/1000/podman/podman.sock:/var/run/docker.sock:z \
+      -v /home/apps/acme.json:/acme.json:z \
+      -p 80:80 \
+      -p 443:443 \
+      -p 8080:8080 \
+      docker.io/library/traefik:latest \
+      --api.dashboard=true \
+      --api.insecure=true \
+      --certificatesresolvers.lets-encrypt.acme.email="your@startup.com" \
+      --certificatesresolvers.lets-encrypt.acme.storage=/acme.json \
+      --certificatesresolvers.lets-encrypt.acme.tlschallenge=true \
+      --entrypoints.http.address=":80" \
+      --entrypoints.http.http.redirections.entryPoint.to=https \
+      --entrypoints.http.http.redirections.entryPoint.scheme=https \
+      --entrypoints.https.address=":443" \
+      --providers.docker=true
+
+Don't forget to plug this beast into systemd:
+
+    mkdir -p ~/.config/systemd/user/ && cd ~/.config/systemd/user/
+    podman generate systemd --files --new --name traefik
+    systemctl --user daemon-reload 
+    systemctl --user enable --now traefik
+    loginctl enable-linger
+
+This [web page](https://blog.cthudson.com/2023-11-02-running-traefik-with-podman/) has brilliant guidance on how to run Podman with Traefik.
 
 ## Installing a closet container registry (CCR)
 
